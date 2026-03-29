@@ -1,0 +1,92 @@
+SQL> conn
+Enter user-name: AS SYSDBA
+Enter user-name: AS SYSDBA
+Connected.
+SQL> CREATE USER casestudy identified by tiger;
+
+User created.
+
+SQL> GRANT all privileges to casestudy;
+
+Grant succeeded.
+
+SQL> conn
+Enter user-name: casestudy/tiger
+Connected.
+SQL> set pages 1000 lines 1000
+SQL> --Creation of tables---
+SQL> CREATE TABLE CUSTOMERS(
+  2  customer_id NUMBER PRIMARY KEY,
+  3      name VARCHAR2(100),
+  4      email VARCHAR2(100),
+  5      phone VARCHAR2(20)
+  6  );
+
+Table created.
+
+SQL> CREATE TABLE PRODUCTS (
+  2      product_id NUMBER PRIMARY KEY,
+  3      product_name VARCHAR2(100),
+  4      price NUMBER(10,2)
+  5  	category VARCHAR2(50));
+
+
+Table created.
+
+SQL> CREATE TABLE INVENTORY (
+  2      inventory_id NUMBER PRIMARY KEY,
+  3      product_id NUMBER,
+  4      quantity_on_hand NUMBER,
+  5      last_updated DATE,
+  6      FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
+  7  );
+
+Table created.
+
+SQL> CREATE TABLE ORDERS (
+  2      order_id NUMBER PRIMARY KEY,
+  3      customer_id NUMBER,
+  4      order_date DATE,
+  5      FOREIGN KEY (customer_id) REFERENCES CUSTOMERS(customer_id)
+  6  );
+
+Table created.
+
+SQL> CREATE TABLE ORDER_ITEMS (
+  2      order_item_id NUMBER PRIMARY KEY,
+  3      order_id NUMBER,
+  4      product_id NUMBER,
+  5      quantity NUMBER,
+  6      FOREIGN KEY (order_id) REFERENCES ORDERS(order_id),
+  7      FOREIGN KEY (product_id) REFERENCES PRODUCTS(product_id)
+  8  );
+
+Table created.
+
+SQL> CREATE TABLE PAYMENTS (
+  2      payment_id NUMBER PRIMARY KEY,
+  3      order_id NUMBER,
+  4      amount NUMBER(10,2),
+  5      payment_method VARCHAR2(50),
+  6      payment_date DATE,
+  7      FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
+  8  );
+
+Table created.
+
+
+SQL> SELECT * from TAB;
+
+TNAME                          TABTYPE  CLUSTERID                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+------------------------------ ------- ----------                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+CUSTOMERS                      TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+INVENTORY                      TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+ORDERS                         TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+ORDER_ITEMS                    TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+PAYMENTS                       TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+PRODUCTS                       TABLE                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+
+6 rows selected.
+
+
+SQL> spool off;
